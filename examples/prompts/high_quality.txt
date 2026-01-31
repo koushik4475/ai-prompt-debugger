@@ -1,0 +1,46 @@
+Create a technical blog post about microservices architecture.
+
+Requirements:
+- Length: 1000-1200 words
+- Target audience: Mid-level software engineers
+- Tone: Professional but accessible
+- Structure: Introduction, 3-4 main sections, conclusion
+
+Must include:
+1. Definition and core concepts
+2. Advantages over monolithic architecture
+3. Common challenges and solutions
+4. Real-world example (preferably from e-commerce)
+
+Format:
+- Use markdown formatting
+- Include code examples where relevant
+- Add 2-3 diagrams (describe in text)
+- Conclude with key takeaways (bullet points)
+
+Success criteria:
+- Technically accurate
+- Practical and actionable
+- Engaging writing style
+- No marketing jargon
+
+Example structure:
+# Introduction
+[Hook and context]
+
+## What Are Microservices?
+[Definition and explanation]
+
+## Benefits
+[Specific advantages with examples]
+
+## Challenges
+[Common pitfalls and solutions]
+
+## Real-World Example
+[Detailed case study]
+
+## Key Takeaways
+- Point 1
+- Point 2
+- Point 3
