@@ -1,6 +1,9 @@
 <div align="center">
 
-# 🔮 AI Prompt Debugger
+# AI Prompt Debugger | LLM Prompt Analysis, Debugging & Optimization Tool
+
+AI Prompt Debugger is a Python tool for inspecting and improving prompts used in large language model (LLM) applications. It helps developers and prompt engineers analyze prompt structure, identify issues, understand token usage, and improve clarity before deployment. The repository includes installation instructions, usage examples, and the project architecture; any token-saving or quality improvements should be measured on your own prompts and models.
+
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=6366F1&center=true&vCenter=true&random=false&width=600&lines=Professional+Prompt+Analysis+Tool;Optimize+Your+LLM+Applications;Debug+%26+Enhance+AI+Prompts" alt="Typing SVG" />
 
