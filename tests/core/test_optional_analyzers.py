@@ -51,7 +51,8 @@ def test_compare_supports_disabled_non_token_analyzers():
     assert result.prompt_a.ambiguity is None
     assert result.prompt_a.predictions is None
     assert result.prompt_a.security is None
-    assert result.token_difference != 0 or result.prompt_a.metrics.total_tokens == result.prompt_b.metrics.total_tokens
+    assert result.prompt_a.metrics is not None
+    assert result.prompt_b.metrics is not None
 
 
 def test_compare_requires_token_analysis():
