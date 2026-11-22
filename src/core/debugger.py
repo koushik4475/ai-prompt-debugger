@@ -122,6 +122,9 @@ class PromptDebugger:
         Returns:
             Comparison result with analysis of both prompts
         """
+        if not self.config.enable_token_analysis:
+            raise ValueError("Prompt comparison requires token analysis to be enabled")
+
         result_a = self.analyze(prompt_a)
         result_b = self.analyze(prompt_b)
         
@@ -275,7 +278,10 @@ class PromptDebugger:
         differences = []
         
         # Compare clarity
-        clarity_diff = result_b.ambiguity.clarity_score - result_a.ambiguity.clarity_score
+        if result_a.ambiguity is not None and result_b.ambiguity is not None:
+            clarity_diff = result_b.ambiguity.clarity_score - result_a.ambiguity.clarity_score
+        else:
+            clarity_diff = 0
         if abs(clarity_diff) > 10:
             better = "B" if clarity_diff > 0 else "A"
             differences.append(
@@ -283,7 +289,12 @@ class PromptDebugger:
             )
         
         # Compare success probability
-        success_diff = result_b.predictions.success_probability - result_a.predictions.success_probability
+        if result_a.predictions is not None and result_b.predictions is not None:
+            success_diff = (
+                result_b.predictions.success_probability - result_a.predictions.success_probability
+            )
+        else:
+            success_diff = 0
         if abs(success_diff) > 10:
             better = "B" if success_diff > 0 else "A"
             differences.append(
@@ -291,7 +302,10 @@ class PromptDebugger:
             )
         
         # Compare token efficiency
-        efficiency_diff = result_b.metrics.token_efficiency - result_a.metrics.token_efficiency
+        if result_a.metrics is not None and result_b.metrics is not None:
+            efficiency_diff = result_b.metrics.token_efficiency - result_a.metrics.token_efficiency
+        else:
+            efficiency_diff = 0
         if abs(efficiency_diff) > 10:
             better = "B" if efficiency_diff > 0 else "A"
             differences.append(
@@ -299,7 +313,10 @@ class PromptDebugger:
             )
         
         # Compare security
-        security_diff = result_b.security.security_score - result_a.security.security_score
+        if result_a.security is not None and result_b.security is not None:
+            security_diff = result_b.security.security_score - result_a.security.security_score
+        else:
+            security_diff = 0
         if abs(security_diff) > 10:
             better = "B" if security_diff > 0 else "A"
             differences.append(
