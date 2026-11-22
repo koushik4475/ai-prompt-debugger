@@ -37,3 +37,25 @@ def test_analyze_supports_all_analyzers_disabled():
     assert result.security is None
     assert result.overall_quality_score == 0
     assert result.overall_grade == "F"
+
+
+def test_compare_supports_disabled_non_token_analyzers():
+    config = AnalyzerConfig(
+        enable_ambiguity_detection=False,
+        enable_success_prediction=False,
+        enable_security_scanning=False,
+    )
+
+    result = PromptDebugger(config).compare("Write code.", "Write clear Python code.")
+
+    assert result.prompt_a.ambiguity is None
+    assert result.prompt_a.predictions is None
+    assert result.prompt_a.security is None
+    assert result.token_difference != 0 or result.prompt_a.metrics.total_tokens == result.prompt_b.metrics.total_tokens
+
+
+def test_compare_requires_token_analysis():
+    debugger = PromptDebugger(AnalyzerConfig(enable_token_analysis=False))
+
+    with pytest.raises(ValueError, match="requires token analysis"):
+        debugger.compare("Write code.", "Write clear Python code.")
