@@ -38,7 +38,7 @@ class PromptIssue(BaseModel):
     location: Optional[str] = None  # Line number or section
     suggestion: Optional[str] = None
     examples: Optional[List[str]] = None
-    
+
     class Config:
         frozen = True
 
@@ -51,7 +51,7 @@ class TokenMetrics(BaseModel):
     token_efficiency: float = Field(ge=0, le=100)  # Percentage
     redundant_phrases: List[str] = Field(default_factory=list)
     compression_opportunities: List[Dict[str, Any]] = Field(default_factory=list)
-    
+
     @validator('token_efficiency')
     def validate_efficiency(cls, v):
         return round(v, 2)
@@ -88,28 +88,29 @@ class PromptAnalysisResult(BaseModel):
     """Complete analysis result for a prompt"""
     prompt_text: str
     timestamp: datetime = Field(default_factory=datetime.now)
-    
-    # Analysis results
+
+    # Analysis results are optional because each analyzer can be disabled
+    # independently through AnalyzerConfig.
     issues: List[PromptIssue] = Field(default_factory=list)
-    metrics: TokenMetrics
-    ambiguity: AmbiguityMetrics
-    predictions: SuccessPrediction
-    security: SecurityMetrics
-    
+    metrics: Optional[TokenMetrics] = None
+    ambiguity: Optional[AmbiguityMetrics] = None
+    predictions: Optional[SuccessPrediction] = None
+    security: Optional[SecurityMetrics] = None
+
     # Overall scores
     overall_quality_score: float = Field(ge=0, le=100)
     overall_grade: str  # A, B, C, D, F
-    
+
     @validator('overall_grade')
     def validate_grade(cls, v):
         if v not in ['A', 'B', 'C', 'D', 'F']:
             raise ValueError("Grade must be A, B, C, D, or F")
         return v
-    
+
     def get_critical_issues(self) -> List[PromptIssue]:
         """Get all critical severity issues"""
         return [i for i in self.issues if i.severity == IssueSeverity.CRITICAL]
-    
+
     def get_issues_by_category(self, category: IssueCategory) -> List[PromptIssue]:
         """Get all issues of a specific category"""
         return [i for i in self.issues if i.category == category]
@@ -119,11 +120,11 @@ class PromptComparison(BaseModel):
     """Comparison between two prompts"""
     prompt_a: PromptAnalysisResult
     prompt_b: PromptAnalysisResult
-    
+
     quality_difference: float
     token_difference: int
     cost_difference: float
-    
+
     better_prompt: str  # "A" or "B"
     comparison_summary: str
     key_differences: List[str] = Field(default_factory=list)
@@ -135,9 +136,9 @@ class AnalyzerConfig(BaseModel):
     enable_token_analysis: bool = True
     enable_success_prediction: bool = True
     enable_security_scanning: bool = True
-    
+
     strict_mode: bool = False  # Stricter analysis
     token_price_per_1k: float = 0.003  # Default pricing
-    
+
     min_severity_to_report: IssueSeverity = IssueSeverity.LOW
-    max_prompt_length: int = 200000  # Maximum tokens to analyze
+    max_prompt_length: int = 200000  # Maximum characters to analyze
