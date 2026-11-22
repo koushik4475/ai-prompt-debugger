@@ -31,7 +31,7 @@ class SecurityScanner:
     
     # Jailbreak attempt patterns
     JAILBREAK_PATTERNS = [
-        r'(DAN|jailbreak|unrestricted|evil\s+mode)',
+        r'(\bDAN\b|jailbreak|unrestricted|evil\s+mode)',
         r'pretend\s+you\s+(have\s+no|don\'t\s+have)\s+(rules|restrictions|limitations)',
         r'act\s+as\s+if\s+you\s+(have|don\'t\s+have)\s+no\s+(ethics|morals|restrictions)',
         r'roleplay\s+(without|ignore)\s+(ethics|safety|restrictions)',
